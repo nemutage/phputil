@@ -1,4 +1,6 @@
-# groupBy
+# array
+
+## groupBy
 
 sample1
 ``` php
