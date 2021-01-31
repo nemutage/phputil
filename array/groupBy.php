@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Groups the elements of an array by a given key.
  * 
