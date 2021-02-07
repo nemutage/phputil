@@ -99,3 +99,43 @@ function variadicGroupBy(array $array, $key, ...$otherKeys) : array
 
     return $grouped;
 }
+
+/**
+ * stack groupBy
+ * 
+ * ```
+ * $result = groupBy($data, 'class', 'name');
+ * ```
+ * 
+ * @param array $array
+ * @param mixed $key
+ * @return array
+ */
+function stackGroupBy(array $argArray, array $groupKeys) : array
+{
+    $result = &$argArray;
+    $stack = [[&$argArray, 0]];
+    $sp = 0;
+        
+    while ($sp >= 0) {
+        [&$array, $depth] = $stack[$sp];
+        $sp--;
+
+        $group = [];
+        foreach ($array as $index => $value) {
+            $groupKey = $groupKeys[$depth];
+            $group[$value[$groupKey]][$index] = $value;
+        }
+            
+        $array = $group;
+
+        if (++$depth !== count($groupKeys)) {
+            foreach ($array as &$v) {
+                $sp++;
+                $stack[$sp] = [&$v, $depth];
+            }
+        }
+    }
+
+    return $result;
+}
